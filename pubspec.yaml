@@ -1,11 +1,14 @@
 name: toml_viewer
-description: A  flutter library embeded TOML view.
-homepage: https://github.com/sudhi001/toml_viewer
 version: 0.0.1
+description: A  flutter library embeded TOML view.
+repository: https://github.com/sudhi001/toml_viewer
+homepage: https://github.com/sudhi001/toml_viewer
 issue_tracker: https://github.com/sudhi001/toml_viewer/issues
 screenshots:
   - description: 'Logo of formstack framework'
     path: screens/screen1.png
+
+topics: [toml, viewer]
 
 
 environment:
