@@ -3,6 +3,10 @@ description: A  flutter library embeded TOML view.
 homepage: https://github.com/sudhi001/toml_viewer
 version: 0.0.1
 issue_tracker: https://github.com/sudhi001/toml_viewer/issues
+screenshots:
+  - description: 'Logo of formstack framework'
+    path: screens/screen1.png
+
 
 environment:
   sdk: '>=3.3.3 <4.0.0'

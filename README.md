@@ -33,3 +33,6 @@ class MainApp extends StatelessWidget {
 
 
 ```
+# Screeshots
+
+<img src="https://github.com/sudhi001/toml_viewer/blob/main/screens/screen1.png?raw=true" width="450">
