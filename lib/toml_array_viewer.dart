@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:toml_viewer/toml_object_veiwer.dart';
 
+/// A StatefulWidget for viewing arrays in TOML (Tom's Obvious, Minimal Language) objects.
+///
+/// This widget is used to display arrays contained within TOML objects. It provides
+/// functionality to expand and collapse individual array elements. It recursively renders
+/// nested arrays and tables.
 class TomlArrayViewer extends StatefulWidget {
+  /// The array data to be displayed.
   final List<dynamic> data;
+
+  /// A flag indicating whether the array is not the root array.
+  ///
+  /// If set to true, it adds padding to align nested arrays properly.
   final bool notRoot;
+
+  /// The key name of the array in the TOML object.
   final String keyname;
 
+  /// Creates a [TomlArrayViewer] widget.
+  ///
+  /// The [data] parameter contains the array data to be displayed.
+  /// The [keyname] parameter specifies the key name of the array in the TOML object.
+  /// The [notRoot] parameter indicates whether the array is not the root array.
   const TomlArrayViewer(
     this.data,
     this.keyname, {
@@ -17,12 +34,14 @@ class TomlArrayViewer extends StatefulWidget {
   State<StatefulWidget> createState() => _TomlArrayViewerState();
 }
 
+/// The state class for [TomlArrayViewer].
 class _TomlArrayViewerState extends State<TomlArrayViewer> {
   late Map<String, bool> openFlag;
 
   @override
   void initState() {
     super.initState();
+    // Initializes the open flags for each array element.
     openFlag = {
       for (int i = 0; i < widget.data.length; i++) '${widget.keyname}_$i': true
     };
@@ -39,6 +58,7 @@ class _TomlArrayViewerState extends State<TomlArrayViewer> {
     );
   }
 
+  /// Builds the list of widgets to display the array elements.
   List<Widget> _getList() {
     return [
       for (int i = 0; i < widget.data.length; i++) ...[
@@ -61,8 +81,8 @@ class _TomlArrayViewerState extends State<TomlArrayViewer> {
                 ),
                 const SizedBox(width: 3),
                 Expanded(
-                    child:
-                        TomlObjectViewerState.getValueWidget(widget.data[i])),
+                  child: TomlObjectViewerState.getValueWidget(widget.data[i]),
+                ),
               ],
             ),
           ),
@@ -77,6 +97,7 @@ class _TomlArrayViewerState extends State<TomlArrayViewer> {
     ];
   }
 
+  /// Builds the entry label for the array element.
   Widget _buildEntry(int index) {
     final content = widget.data[index];
     final ex = TomlObjectViewerState.isExtensible(content);

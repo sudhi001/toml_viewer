@@ -1,5 +1,5 @@
 name: toml_viewer
-version: 0.0.1
+version: 0.0.2
 description: A  flutter library embeded TOML view.
 repository: https://github.com/sudhi001/toml_viewer
 homepage: https://github.com/sudhi001/toml_viewer
