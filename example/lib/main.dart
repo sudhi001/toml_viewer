@@ -1,10 +1,3 @@
-# TOML Viewer
-
-TOML viewr is to show the TOML file on Flutter UI.
-
-
-```dart
-
 import 'package:flutter/material.dart';
 import 'package:toml_viewer/toml_viewer.dart';
 
@@ -30,6 +23,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-
-```
