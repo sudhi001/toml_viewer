@@ -1,0 +1,22 @@
+name: toml_viewer
+description: A  flutter library embeded TOML view.
+homepage: https://github.com/sudhi001/toml_viewer
+version: 0.0.1
+issue_tracker: https://github.com/sudhi001/toml_viewer/issues
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  toml: ^0.15.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
