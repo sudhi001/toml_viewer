@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toml_viewer/toml_object_veiwer.dart';
+import 'package:toml_viewer/toml_viewer_config.dart';
 
 /// A StatefulWidget for viewing arrays in TOML (Tom's Obvious, Minimal Language) objects.
 ///
@@ -18,6 +19,8 @@ class TomlArrayViewer extends StatefulWidget {
   /// The key name of the array in the TOML object.
   final String keyname;
 
+  final TomlViewerConfig config;
+
   /// Creates a [TomlArrayViewer] widget.
   ///
   /// The [data] parameter contains the array data to be displayed.
@@ -28,6 +31,7 @@ class TomlArrayViewer extends StatefulWidget {
     this.keyname, {
     super.key,
     this.notRoot = false,
+    required this.config,
   });
 
   @override
@@ -43,7 +47,8 @@ class _TomlArrayViewerState extends State<TomlArrayViewer> {
     super.initState();
     // Initializes the open flags for each array element.
     openFlag = {
-      for (int i = 0; i < widget.data.length; i++) '${widget.keyname}_$i': true
+      for (int i = 0; i < widget.data.length; i++)
+        '${widget.keyname}_$i': widget.config.expandMode
     };
   }
 
@@ -81,7 +86,8 @@ class _TomlArrayViewerState extends State<TomlArrayViewer> {
                 ),
                 const SizedBox(width: 3),
                 Expanded(
-                  child: TomlObjectViewerState.getValueWidget(widget.data[i]),
+                  child: TomlObjectViewerState.getValueWidget(
+                      widget.data[i], widget.config),
                 ),
               ],
             ),
@@ -90,9 +96,7 @@ class _TomlArrayViewerState extends State<TomlArrayViewer> {
         const SizedBox(height: 4),
         if (openFlag['${widget.keyname}_$i'] ?? false)
           TomlObjectViewerState.getContentWidget(
-            widget.keyname,
-            widget.data[i],
-          ),
+              widget.keyname, widget.data[i], widget.config),
       ],
     ];
   }

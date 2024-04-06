@@ -52,6 +52,49 @@ class MainApp extends StatelessWidget {
 
 
 ```
+
+To address the issues in your provided code snippet and describe the customization of `TomlViewerConfig`, let's make corrections and clarify how you can customize the configuration when using `TomlView`.
+
+### Corrections and Explanation
+
+First, let's correct the usage of `TomlViewerConfig.copyWith` and clarify how to properly customize the configuration for `TomlView`.
+
+#### 1. Fixing the Code
+
+```dart
+TomlView(
+  assetFilePath: 'assets/test.toml',
+  config: TomlViewerConfig().copyWith(expandMode: false),
+)
+```
+
+In the corrected code:
+
+- We instantiate a new `TomlViewerConfig` object using `TomlViewerConfig()`.
+- We then use the `copyWith` method to create a modified copy of the configuration by specifying `expandMode: false`.
+
+#### 2. Customization Details
+
+The `TomlViewerConfig` class allows customization of various properties that affect the appearance and behavior of the TOML viewer. Here's a breakdown of the configurable properties:
+
+| Property Name    | Default Value                                     | Description                                 |
+|------------------|---------------------------------------------------|---------------------------------------------|
+| `expandMode`     | `true`                                            | Controls whether the tree view is expanded or collapsed by default.                                   |
+| `valueColor`     | `Color.fromRGBO(255, 68, 68, 1.0)`                | Defines the color for values in the TOML viewer.                        |
+| `typeTextColor`  | `Colors.grey`                                     | Specifies the color for value type names displayed in the viewer.      |
+| `symbolColor`    | `Colors.grey`                                     | Determines the color for symbols (like '=' or ',') within the viewer.   |
+| `nonRootKeyColor`| `const Color.fromRGBO(0, 51, 153, 1.0)`           | Sets the color for non-root keys in the viewer.                         |
+| `rootKeyColor`   | `Color.fromRGBO(126, 43, 143, 1.0)`               | Specifies the color for root keys in the viewer.                        |
+| `keyColor`       | `Color.fromRGBO(0, 128, 128, 1.0)`                | Defines the color for map keys other than root keys.                    |
+
+#### 3. Customization Example
+
+In the example usage provided:
+
+- We instantiate `TomlView` with `assetFilePath` pointing to a TOML file (`'assets/test.toml'`).
+- We customize the configuration by setting `expandMode` to `false` using `copyWith`.
+
+
 # Screeshots
 
 <img src="https://github.com/sudhi001/toml_viewer/blob/main/screens/screen1.png?raw=true" width="450">

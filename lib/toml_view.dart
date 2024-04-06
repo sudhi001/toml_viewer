@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toml/toml.dart';
 import 'package:toml_viewer/toml_object_veiwer.dart';
+import 'package:toml_viewer/toml_viewer_config.dart';
 
 /// A widget for displaying TOML (Tom's Obvious, Minimal Language) content.
 ///
@@ -13,7 +14,7 @@ class TomlView extends StatelessWidget {
   ///
   /// Either [assetFilePath] or [content] should be provided. If both are provided,
   /// [assetFilePath] will take precedence.
-  const TomlView({super.key, this.assetFilePath, this.content});
+  const TomlView({super.key, this.assetFilePath, this.content, this.config});
 
   /// The path of the asset file containing the TOML content.
   ///
@@ -25,8 +26,11 @@ class TomlView extends StatelessWidget {
   /// If this is provided, TOML content will be read from the provided string.
   final String? content;
 
+  final TomlViewerConfig? config;
+
   @override
   Widget build(BuildContext context) {
+    final effectiveConfig = config ?? TomlViewerConfig();
     if (assetFilePath != null) {
       // If asset file path is provided, read TOML content from the asset file.
       return FutureBuilder<String>(
@@ -45,6 +49,7 @@ class TomlView extends StatelessWidget {
             child: TomlObjectViewer(
               documents,
               notRoot: false,
+              config: effectiveConfig,
             ),
           );
         },
@@ -57,6 +62,7 @@ class TomlView extends StatelessWidget {
         child: TomlObjectViewer(
           documents,
           notRoot: false,
+          config: effectiveConfig,
         ),
       );
     } else {

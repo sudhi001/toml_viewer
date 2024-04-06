@@ -10,13 +10,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-            child: TomlView(assetFilePath: 'assets/test.toml'),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+            child: TomlView(
+                assetFilePath: 'assets/test.toml',
+                config: TomlViewerConfig.copyWith(expandMode: false)),
           ),
         ),
       ),

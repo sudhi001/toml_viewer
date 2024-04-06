@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toml/toml.dart';
+import 'package:toml_viewer/toml_viewer_config.dart';
 
 import 'toml_array_viewer.dart';
 
@@ -16,11 +17,14 @@ class TomlObjectViewer extends StatefulWidget {
   /// If set to true, it adds padding to align nested objects properly.
   final bool notRoot;
 
+  final TomlViewerConfig config;
+
   /// Creates a [TomlObjectViewer] widget.
   ///
   /// The [data] parameter contains the TOML data to be displayed.
   /// The [notRoot] parameter indicates whether the object is not the root object.
-  const TomlObjectViewer(this.data, {super.key, this.notRoot = false});
+  const TomlObjectViewer(this.data,
+      {super.key, this.notRoot = false, required this.config});
 
   @override
   State<StatefulWidget> createState() => TomlObjectViewerState();
@@ -36,7 +40,7 @@ class TomlObjectViewerState extends State<TomlObjectViewer> {
     // Initializes the open flags for expandable entries.
     openFlag = {
       for (final entry in widget.data.entries)
-        if (isExpandable(entry.value)) entry.key: true
+        if (isExpandable(entry.value)) entry.key: widget.config.expandMode
     };
   }
 
@@ -82,18 +86,18 @@ class TomlObjectViewerState extends State<TomlObjectViewer> {
                     entry.key,
                     style: TextStyle(
                       color: entry.value is Map
-                          ? Colors.teal.shade700
+                          ? widget.config.keyColor
                           : widget.notRoot
-                              ? Colors.blue.shade900
-                              : Colors.purple.shade900,
+                              ? widget.config.nonRootKeyColor
+                              : widget.config.rootKeyColor,
                     ),
                   ),
-                  const Text(
+                  Text(
                     ' = ',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: widget.config.symbolColor),
                   ),
                   const SizedBox(width: 3),
-                  Expanded(child: getValueWidget(entry.value)),
+                  Expanded(child: getValueWidget(entry.value, widget.config)),
                 ],
               ),
             ),
@@ -101,15 +105,15 @@ class TomlObjectViewerState extends State<TomlObjectViewer> {
         ),
         const SizedBox(height: 4),
         if (openFlag[entry.key] ?? false)
-          getContentWidget(entry.key, entry.value),
+          getContentWidget(entry.key, entry.value, widget.config),
       ],
     ];
   }
 
   /// Determines the appropriate widget to display the value based on its type.
-  static Widget getValueWidget(dynamic content) {
+  static Widget getValueWidget(dynamic content, TomlViewerConfig config) {
     // Determine the style based on the value's type.
-    var style = TextStyle(color: Colors.red.shade800);
+    var style = TextStyle(color: config.valueColor);
     if (content == null) {
       return Expanded(
         child: Text(
@@ -132,21 +136,21 @@ class TomlObjectViewerState extends State<TomlObjectViewer> {
       );
     } else if (content is List) {
       if (content.isEmpty) {
-        return const Text(
+        return Text(
           'Array[0]',
-          style: TextStyle(color: Colors.grey),
+          style: TextStyle(color: config.typeTextColor),
         );
       } else {
         return Text(
           'Array of ${getTypeName(content)}[${content.length}]',
-          style: const TextStyle(color: Colors.grey),
+          style: TextStyle(color: config.typeTextColor),
         );
       }
     }
-    return const Text(
-      'Table',
-      style: TextStyle(color: Colors.grey),
-    );
+    return Text('Table',
+        style: TextStyle(
+          color: config.typeTextColor,
+        ));
   }
 
   /// Determines if the value should be wrapped in an InkWell for expanding/collapsing.
@@ -197,11 +201,21 @@ class TomlObjectViewerState extends State<TomlObjectViewer> {
   }
 
   /// Returns the appropriate widget for displaying the content based on its type.
-  static Widget getContentWidget(String key, dynamic value) {
+  static Widget getContentWidget(
+      String key, dynamic value, TomlViewerConfig config) {
     if (value is List) {
-      return TomlArrayViewer(value, key, notRoot: true);
+      return TomlArrayViewer(
+        value,
+        key,
+        notRoot: true,
+        config: config,
+      );
     } else {
-      return TomlObjectViewer(value, notRoot: true);
+      return TomlObjectViewer(
+        value,
+        notRoot: true,
+        config: config,
+      );
     }
   }
 }
